@@ -37,7 +37,7 @@ public class HSOwner {
         return this.properties.get("firstName");
     }
 
-    public Owner setFirstname(String firstname) {
+    public HSOwner setFirstname(String firstname) {
         this.properties.put("firstname", firstname);
         return this;
     }
@@ -46,7 +46,7 @@ public class HSOwner {
         return this.properties.get("lastName");
     }
 
-    public Owner setLastname(String lastname) {
+    public HSOwner setLastname(String lastname) {
         this.properties.put("lastname", lastname);
         return this;
     }
