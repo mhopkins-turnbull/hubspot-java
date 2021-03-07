@@ -14,7 +14,7 @@ public class HSOwnerJSONTest {
 
     @Test
     public void parseOwnerData_Test() throws Exception {
-        String inputData = "{properties:{test:1},ownerid:71}";
+        String inputData = "{test:1,ownerId:71}";
         JSONObject jsonObject = new JSONObject(inputData);
 
         HSOwner owner = service.parseOwnerData(jsonObject);
@@ -24,7 +24,7 @@ public class HSOwnerJSONTest {
 
     @Test
     public void toJson_Test() throws Exception {
-        String inputData = "{properties:{test:1},ownerid:71}";
+        String inputData = "{test:1,ownerId:71}";
         JSONObject jsonObject = new JSONObject(inputData);
 
         HSOwner owner = service.parseOwnerData(jsonObject);

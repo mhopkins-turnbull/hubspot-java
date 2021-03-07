@@ -53,7 +53,6 @@ public class HSOwnerService {
     public HSOwner parseOwnerData(JSONObject jsonObject) {
         HSOwner HSOwner = new HSOwner();
         HSOwner.setId(jsonObject.getLong("ownerId"));
-//        JSONObject jsonProperties = jsonObject.getJSONObject("properties");
         Set<String> keys = jsonObject.keySet();
         keys.stream().forEach( key ->
                 HSOwner.setProperty(key,
