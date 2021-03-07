@@ -17,6 +17,10 @@ public class HubSpot {
         return new HSContactService(httpService);
     }
 
+    public HSOwnerService owner() {
+        return new HSOwnerService(httpService);
+    }
+
     public HSDealService deal() {
         return new HSDealService(httpService);
     }

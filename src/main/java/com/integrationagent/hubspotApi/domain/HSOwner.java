@@ -20,7 +20,7 @@ public class HSOwner {
     }
 
     public HSOwner setId(long id) {
-        this.properties.put("vid", Long.toString(id));
+        this.properties.put("ownerId", Long.toString(id));
         return this;
     }
 
@@ -75,4 +75,13 @@ public class HSOwner {
                 .collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
         return HubSpotHelper.mapToJsonString(properties);
     }
+
+    public JSONObject toJson() {
+
+        Map<String, String> properties = new HashMap<>(getProperties());
+        properties.remove("ownerId");
+
+        return HubSpotHelper.mapToJson(properties);
+    }
+
 }

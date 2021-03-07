@@ -1,5 +1,6 @@
 package com.integrationagent.hubspotApi.service;
 
+import com.integrationagent.hubspotApi.domain.HSContact;
 import com.integrationagent.hubspotApi.domain.HSOwner;
 import com.integrationagent.hubspotApi.utils.HubSpotException;
 import com.mashape.unirest.http.JsonNode;
@@ -22,7 +23,7 @@ public class HSOwnerService {
         String url = "/owners/v2/owners/";
 
         try {
-            return parseOwnerData((JsonNode) httpService.getRequest(url));
+            return parseOwnerListData((JSONArray) httpService.getRequest(url));
         } catch (HubSpotException e) {
             if (e.getCode() == 404) {
                 return null;
@@ -32,10 +33,42 @@ public class HSOwnerService {
         }
     }
 
-    private List<HSOwner> parseOwnerData(JsonNode jsonBody) {
+    public HSOwner getByID(long id) throws HubSpotException{
+        String url = "/owners/v2/owners/" + id;
+        return getOwner(url);
+    }
+
+    private HSOwner getOwner(String url) throws HubSpotException {
+        try {
+            return parseOwnerData((JSONObject) httpService.getRequest(url));
+        } catch (HubSpotException e) {
+            if (e.getMessage().equals("Not Found")) {
+                return null;
+            } else {
+                throw e;
+            }
+        }
+    }
+
+    public HSOwner parseOwnerData(JSONObject jsonObject) {
+        HSOwner HSOwner = new HSOwner();
+        HSOwner.setId(jsonObject.getLong("ownerId"));
+//        JSONObject jsonProperties = jsonObject.getJSONObject("properties");
+        Set<String> keys = jsonObject.keySet();
+        keys.stream().forEach( key ->
+                HSOwner.setProperty(key,
+                        jsonObject.get(key) instanceof JSONObject ?
+                                ((JSONObject) jsonObject.get(key)).getString("value") :
+                                jsonObject.get(key).toString()
+                )
+        );
+        return HSOwner;
+    }
+
+    public List<HSOwner> parseOwnerListData(JSONArray jsonArray) {
         List<HSOwner> owners = new ArrayList<HSOwner>();
 
-        JSONArray jsonArray = jsonBody.getArray();
+        //JSONArray jsonArray = jsonBody.to;
         for (Object o : jsonArray) {
             if (o instanceof JSONObject) {
                 HSOwner owner = parseOwner((JSONObject) o);
